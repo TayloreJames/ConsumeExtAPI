@@ -103,12 +103,17 @@ namespace ConsumingAPI_Final.Service
 
     public class RingPolygons
     {
-        public List<CoordinatePair> Coordinates { get; set; }
+        public List<CoordinatePair> CoordinateSet { get; set; }
     }
 
     public class CoordinatePair
     {
-        public decimal[,] LongAndLat { get; set; }
+        public List<CoordinatePoint> Coordinates { get; set; }
     }
-  
+
+    public class CoordinatePoint
+    {
+        public decimal Coordinate { get; set; }
+    }
+
 }
