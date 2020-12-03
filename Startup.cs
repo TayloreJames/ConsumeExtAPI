@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ConsumingAPI_Final.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +25,11 @@ namespace ConsumingAPI_Final
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddHttpClient<IMUAPService,MUAPService>(client =>
+            {
+                client.BaseAddress = new Uri("https://services2.arcgis.com/qvkbeam7Wirps6zC/arcgis/rest/services/Medically_Underserved_Areas_Population/FeatureServer/0/");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

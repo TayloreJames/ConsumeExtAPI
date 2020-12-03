@@ -5,4 +5,7 @@
     <RootNamespace>ConsumingAPI_Final</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Service\" />
+  </ItemGroup>
 </Project>
