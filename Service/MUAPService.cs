@@ -100,22 +100,51 @@ namespace ConsumingAPI_Final.Service
     public class FeatureGeometry
     {
         public float[][][] Rings { get; set; }
-        //public List<RingPolygons> Rings { get; set; }
+        public List<RingPolygons> Rings2 { get; set; } = new List<RingPolygons>();
+
+        public void FlattenRings()
+        {
+
+            foreach (var coordinateSet in Rings)
+            {
+                Rings2.CoordinateSet = new CoordinatePair()
+                {
+
+                };
+                foreach (var coordinate in coordinateSet)
+                {
+                    //coordinateSetObject.Coordinates.Add(coordinate);
+                    foreach(var coordinatePoint in coordinate)
+                    {
+                        Rings2.CoordinateSet.Coordinates.Add(
+                            new CoordinatePoint()
+                            {
+                                Coordinate = coordinatePoint
+                            }); ;
+                    }
+                }
+
+                Rings2 = coordinateSetObject;
+            }
+        }
+
+        
     }
 
-    //public class RingPolygons
-    //{
-    //    public List<CoordinatePair> CoordinateSet { get; set; }
-    //}
+    public class RingPolygons
+    {
+        public List<CoordinatePair> CoordinateSet { get; set; }
+    }
 
-    //public class CoordinatePair
-    //{
-    //    public List<CoordinatePoint> Coordinates { get; set; }
-    //}
+    public class CoordinatePair
+    {
+        //want this returned
+        public List<CoordinatePoint> Coordinates { get; set; }
+    }
 
-    //public class CoordinatePoint
-    //{
-    //    public float Coordinate { get; set; }
-    //}
+    public class CoordinatePoint
+    {
+        public float Coordinate { get; set; }
+    }
 
 }

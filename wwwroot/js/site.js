@@ -3,16 +3,9 @@
 
 // Write your JavaScript code.
 
-use 
 
-const triangleCoords = [
-    { lat: 25.774, lng: -80.19 },
-    { lat: 18.466, lng: -66.118 },
-    { lat: 32.321, lng: -64.757 },
-];
-const bermudaTriangle = new google.maps.Polygon({
-    paths: triangleCoords,
-});
+
+var latLng = 
 
 var myPolygon = new google.maps.Polygon({
     paths: [
@@ -22,4 +15,4 @@ var myPolygon = new google.maps.Polygon({
     ]
 });
 
-var testPolygon = new google.maps.Polygon()
+google.map
