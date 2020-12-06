@@ -8,7 +8,7 @@ namespace ConsumingAPI_Final.Service
 {
     public interface IMUAPService
     {
-        Task<MUAPResponse> GetMUAPResults(string query);
+        Task<MUAPObject> GetMUAPResults(string query);
     }
 
     public class MUAPService : IMUAPService
@@ -28,25 +28,26 @@ namespace ConsumingAPI_Final.Service
             };
         }
 
-        public async Task<MUAPResponse> GetMUAPResults(string query)
+        //query=1%3D1 returns all data
+        public async Task<MUAPObject> GetMUAPResults(string query)
         {
-            //https: //services2.arcgis.com/qvkbeam7Wirps6zC/arcgis/rest/services/Medically_Underserved_Areas_Population/FeatureServer/0/query?where=ObjectId=1&outFields=muap_index,srvc_area,ObjectId&returnGeometry=true&orderByFields=muap_index&outSR=4326&f=json
-            var response = await _httpClient.GetAsync($"query?where=ObjectId={query}&outFields=muap_index,srvc_area,ObjectId&returnGeometry=true&orderByFields=muap_index&outSR=4326&f=json");
+            //https: //services2.arcgis.com/qvkbeam7Wirps6zC/arcgis/rest/services/Medically_Underserved_Areas_Population/FeatureServer/0/query?where=1%3D1&outFields=muap_index,srvc_area,ObjectId&returnGeometry=true&orderByFields=muap_index&outSR=4326&f=json
+            var response = await _httpClient.GetAsync($"query?where={query}&outFields=muap_index,srvc_area,ObjectId&returnGeometry=true&orderByFields=muap_index&outSR=4326&f=json");
 
             var jsonString = await response.Content.ReadAsStringAsync();
-            //await response.Content.ReadAsAsync<SearchlyResponse>();
+            
 
-            var muapResponse = JsonSerializer.Deserialize<MUAPResponse>(jsonString, _options);
+            var muapResponse = JsonSerializer.Deserialize<MUAPObject>(jsonString, _options);
 
             return muapResponse;
         }
     }
 
-    public class MUAPResponse
+    public class MUAPObject
     {
         public string ObjectIdFieldName { get; set; }
         public UniqueIdField UniqueIdField { get; set; }
-        public string? GlobalIdFieldName { get; set; }
+        public string GlobalIdFieldName { get; set; }
         public GeometryProperties GeometryProperties { get; set; }
         public string GeometryType { get; set; }
         public SpatialReference SpatialReference { get; set; }
@@ -91,29 +92,30 @@ namespace ConsumingAPI_Final.Service
 
     public class FeatureAttributes
     {
-        public decimal MuapIndex { get; set; }
-        public string ServiceArea { get; set; }
+        public float Muap_index { get; set; }
+        public string Srvc_Area { get; set; }
         public int ObjectId { get; set; }
     }
 
     public class FeatureGeometry
     {
-        public List<RingPolygons> Rings { get; set; } 
+        public float[][][] Rings { get; set; }
+        //public List<RingPolygons> Rings { get; set; }
     }
 
-    public class RingPolygons
-    {
-        public List<CoordinatePair> CoordinateSet { get; set; }
-    }
+    //public class RingPolygons
+    //{
+    //    public List<CoordinatePair> CoordinateSet { get; set; }
+    //}
 
-    public class CoordinatePair
-    {
-        public List<CoordinatePoint> Coordinates { get; set; }
-    }
+    //public class CoordinatePair
+    //{
+    //    public List<CoordinatePoint> Coordinates { get; set; }
+    //}
 
-    public class CoordinatePoint
-    {
-        public decimal Coordinate { get; set; }
-    }
+    //public class CoordinatePoint
+    //{
+    //    public float Coordinate { get; set; }
+    //}
 
 }

@@ -14,6 +14,9 @@ namespace ConsumingAPI_Final
 {
     public class Startup
     {
+        public const string arcBaseAddress = "https://services2.arcgis.com/qvkbeam7Wirps6zC/arcgis/rest/services/Medically_Underserved_Areas_Population/FeatureServer/0/";
+        public const string googleMapsBase = "https://maps.googleapis.com/maps/api/geocode/";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,8 +31,16 @@ namespace ConsumingAPI_Final
 
             services.AddHttpClient<IMUAPService,MUAPService>(client =>
             {
-                client.BaseAddress = new Uri("https://services2.arcgis.com/qvkbeam7Wirps6zC/arcgis/rest/services/Medically_Underserved_Areas_Population/FeatureServer/0/");
+                client.BaseAddress = new Uri(arcBaseAddress);
             });
+
+            services.AddHttpClient<IGeocodingService, GeocodingService>(client =>
+            {
+                client.BaseAddress = new Uri(googleMapsBase);
+            });
+
+            services.AddTransient<ICombinedAPIService, CombinedAPIService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

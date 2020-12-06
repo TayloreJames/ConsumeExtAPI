@@ -15,14 +15,17 @@ namespace ConsumingAPI_Final.Controllers
     public class MUAPController : Controller
     {
         private readonly IMUAPService _muapService;
+        
 
         public MUAPController(IMUAPService muapService)
         {
             _muapService = muapService;
+            
         }
 
 
-        // GET: api/MUAP/query
+        // GET: api/MUAP/polygon/query       
+        //[Route ("{pol/{query}")]
         [HttpGet("{query}")]
         public async Task<ActionResult<List<FeatureGeometry>>> GetObjectGeometry(string query)
         {
@@ -36,26 +39,7 @@ namespace ConsumingAPI_Final.Controllers
 
             return geometryPolygons;
         }
-
-
-
-        //    public IActionResult Index()
-        //{
-        //    return View();
-        //}
+        
     }
-    //public class FeatureGeometry
-    //{
-    //    public List<RingPolygons> Rings { get; set; }
-    //}
-
-    //public class RingPolygons
-    //{
-    //    public List<GeometryPoint> Coordinates { get; set; }
-    //}
-
-    //public class GeometryPoint
-    //{
-    //    public decimal[,] LongAndLat { get; set; }
-    //}
+   
 }
