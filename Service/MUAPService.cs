@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -100,31 +101,39 @@ namespace ConsumingAPI_Final.Service
     public class FeatureGeometry
     {
         public float[][][] Rings { get; set; }
-        public List<RingPolygons> Rings2 { get; set; } = new List<RingPolygons>();
+        public RingPolygons Rings2 { get; set; } 
 
         public void FlattenRings()
         {
 
-            foreach (var coordinateSet in Rings)
+            foreach (var ringPolygon in Rings)
             {
-                Rings2.CoordinateSet = new CoordinatePair()
+                Rings2 = new RingPolygons();
+                Rings2.CoordinateSet = new List<CoordinatePair>();
+               
+                foreach (var coordinatePair in ringPolygon)
                 {
-
-                };
-                foreach (var coordinate in coordinateSet)
-                {
+                    var coordinatePoints = new List<CoordinatePoint>();
+                    //var coordinatePair = new List<Coo>
                     //coordinateSetObject.Coordinates.Add(coordinate);
-                    foreach(var coordinatePoint in coordinate)
+                    var coordinatePairs = new CoordinatePair();
+                    var finalCoordinatePoint = new CoordinatePoint();
+                    foreach (var coordinatePoint in coordinatePair)
                     {
-                        Rings2.CoordinateSet.Coordinates.Add(
-                            new CoordinatePoint()
-                            {
-                                Coordinate = coordinatePoint
-                            }); ;
+                        if(coordinatePoint == coordinatePair[0])
+                        {
+                            finalCoordinatePoint.Latitude = coordinatePoint;
+                        }
+                        finalCoordinatePoint.Longitude = coordinatePoint;
+                      
                     }
-                }
+                    coordinatePoints.Add(finalCoordinatePoint);
+                    coordinatePairs.Coordinates = coordinatePoints;
 
-                Rings2 = coordinateSetObject;
+                    Rings2.CoordinateSet.Add(coordinatePairs);
+                }
+                
+                
             }
         }
 
@@ -136,15 +145,21 @@ namespace ConsumingAPI_Final.Service
         public List<CoordinatePair> CoordinateSet { get; set; }
     }
 
+    //lat and long
     public class CoordinatePair
     {
+        //public float Lat { get; set; }
+        //public float Long { get; set; }
+
         //want this returned
         public List<CoordinatePoint> Coordinates { get; set; }
     }
 
+    //individual lat, individual long
     public class CoordinatePoint
     {
-        public float Coordinate { get; set; }
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
     }
 
 }

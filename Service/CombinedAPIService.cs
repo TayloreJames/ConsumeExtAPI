@@ -24,7 +24,11 @@ namespace ConsumingAPI_Final.Service
         {
             var muapResults = await _muapService.GetMUAPResults(_neighborhoods);
             var geocodingResults = await  _geocodingService.GetGeocodingResults(address);
-
+            foreach (var feature in muapResults.Features)
+            {
+                feature.Geometry.FlattenRings();
+            }
+           
             var combinedAPIObject = new CombinedAPIObject() { MUAPObject = muapResults, GeocodingObject = geocodingResults };
             return combinedAPIObject;
         }
