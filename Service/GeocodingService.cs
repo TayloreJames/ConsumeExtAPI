@@ -16,6 +16,7 @@ namespace ConsumingAPI_Final.Service
         private readonly HttpClient _httpClient;
         private JsonSerializerOptions _options;
         private const string _key = "AIzaSyAnFtWq1VKpckVtV3i665mgdfzf20m6y6g";
+        //private string 
 
         public GeocodingService(HttpClient httpClient)
         {
@@ -49,8 +50,8 @@ namespace ConsumingAPI_Final.Service
 
     public class Results
     {
-        public AddressComponent[] AddressComponents { get; set; }
-        public string FormattedAddress { get; set; }
+        public AddressComponent[] Address_Components { get; set; }
+        public string Formatted_Address { get; set; }
         public GeometryData Geometry { get; set; }
         public string Place_Id { get; set; }
         public PlusCode PlusCode { get; set; }

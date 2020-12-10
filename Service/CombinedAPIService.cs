@@ -23,14 +23,14 @@ namespace ConsumingAPI_Final.Service
 
         public async Task<CombinedAPIObject> GetCombinedObject(string address)
         {
+            var geocodingResults = await _geocodingService.GetGeocodingResults(address);
             var muapResults = await _muapService.GetMUAPResults(_neighborhoods);
-            var geocodingResults = await  _geocodingService.GetGeocodingResults(address);
             foreach (var feature in muapResults.Features)
             {
                 feature.Geometry.FlattenRings();
             }
            
-            var combinedAPIObject = new CombinedAPIObject() { MUAPObject = muapResults, GeocodingObject = geocodingResults };
+            var combinedAPIObject = new CombinedAPIObject() { GeocodingObject = geocodingResults, MUAPObject = muapResults };
             return combinedAPIObject;
         }
 
@@ -84,8 +84,8 @@ namespace ConsumingAPI_Final.Service
 
     public class CombinedAPIObject
     {
-        public MUAPObject MUAPObject { get; set; }
         public GeocodingObject GeocodingObject { get; set; }
+        public MUAPObject MUAPObject { get; set; }
     }
     
 }
